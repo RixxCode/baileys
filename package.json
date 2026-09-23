@@ -1,6 +1,6 @@
 {
-  "name": "@rixxcodexyz/baileys",
-  "version": "8.0.15",
+  "name": "@rixxcodex/baileys",
+  "version": "8.0.16",
   "description": "Websocket Whatsapp API for Node.js",
   "keywords": [
     "whatsapp",
@@ -52,7 +52,7 @@
     "ws": "*",
     "jimp": "0.22.12",
     "cache-manager": "5.7.6",
-    "@rixxcodexyz/libsignal": "github:RixxCode/libsignal"
+    "@rixxcodex/libsignal": "github:RixxCode/libsignal"
   },
   "devDependencies": {
     "@types/jest": "*",

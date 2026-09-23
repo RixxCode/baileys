@@ -5,7 +5,7 @@
 <br/>
 <br/>
 
-# @rixxcodexyz/baileys
+# @rixxcodex/baileys
 
 <p>
   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" />
@@ -26,9 +26,9 @@ Built on WebSocket for speed, stability, and full multi-device support.
 
 ---
 
-## What is @rixxcodexyz/baileys?
+## What is @rixxcodex/baileys?
 
-**@rixxcodexyz/baileys** is a powerful, open-source library for developers who need reliable WhatsApp automation without the overhead of a browser. Powered by **WebSocket technology**, it supports message management, group administration, interactive messages, and action buttons all in a lightweight and modular package.
+**@rixxcodex/baileys** is a powerful, open-source library for developers who need reliable WhatsApp automation without the overhead of a browser. Powered by **WebSocket technology**, it supports message management, group administration, interactive messages, and action buttons all in a lightweight and modular package.
 
 Actively maintained with continuous improvements to **pairing stability**, **session management**, and **WhatsApp multi-device compatibility**.
 
@@ -59,15 +59,15 @@ Perfect for:
 Install via npm or yarn:
 
 ```bash
-npm install @rixxcodexyz/baileys
+npm install @rixxcodex/baileys
 # or
-yarn add @rixxcodexyz/baileys
+yarn add @rixxcodex/baileys
 ```
 
 Then import and initialize:
 
 ```javascript
-const { makeWASocket, useMultiFileAuthState } = require("@rixxcodexyz/baileys");
+const { makeWASocket, useMultiFileAuthState } = require("@rixxcodex/baileys");
 
 const { state, saveCreds } = await useMultiFileAuthState("auth_info");
 const sock = makeWASocket({ auth: state });
