@@ -288,3 +288,42 @@ await sock.sendMessage(target, {
 }, { quoted: m });
 ```
 </details>
+
+---
+
+## ✨ Extra helpers (`enhance`)
+
+Opt-in bot helpers built into the library — no extra dependency:
+
+```js
+const { makeWASocket } = require("@rixxcodex/baileys");
+const { enhance } = require("@rixxcodex/baileys/enhance");
+
+const sock = makeWASocket(config);
+
+enhance(sock, {
+  antiCall: true,        // auto-reject calls
+  autoRead: true,        // mark incoming messages as read
+  autoTyping: true,      // show "typing..." indicator
+  antiDelete: { resend: true }, // detect & resend deleted messages
+  alwaysOnline: true,    // keep presence "available"
+});
+
+// events emitted for you
+sock.ev.on("rix.messageDeleted", ({ chat, by, text, original }) => {
+  console.log(`deleted in ${chat} by ${by}: ${text}`);
+});
+
+// extra helper
+await sock.sendContact("628xxxxxxxxxx@s.whatsapp.net", {
+  name: "Rixx", number: "628xxxxxxxxxx",
+});
+```
+
+| Option | Type | What it does |
+|---|---|---|
+| `antiCall` | `bool` or `{ allow: [jids] }` | Auto-reject incoming calls |
+| `autoRead` | `bool` or `{ exceptGroups: bool }` | Mark messages as read |
+| `autoTyping` | `bool` or `{ delay: ms }` | Typing indicator on new messages |
+| `antiDelete` | `bool` or `{ cacheSize, resend }` | Detect deleted messages, optional resend |
+| `alwaysOnline` | `bool` | Keep presence "available" |
