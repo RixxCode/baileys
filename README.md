@@ -327,3 +327,33 @@ await sock.sendContact("628xxxxxxxxxx@s.whatsapp.net", {
 | `autoTyping` | `bool` or `{ delay: ms }` | Typing indicator on new messages |
 | `antiDelete` | `bool` or `{ cacheSize, resend }` | Detect deleted messages, optional resend |
 | `alwaysOnline` | `bool` | Keep presence "available" |
+
+---
+
+## 💎 Hidden gems (`gems`)
+
+Rare helpers most libraries never expose:
+
+```js
+const { gems } = require("@rixxcodex/baileys/gems");
+gems(sock);
+
+// 1. edit a message you already sent
+await sock.editMessage(jid, sentMessageKey, "new text");
+
+// 2. decrypt a poll vote (votes arrive as encrypted blobs!)
+const { selected } = sock.decodePollVote(voteMsg, {
+  pollEncKey: pollMessage.messageContextInfo.messageSecret,
+  pollCreatorJid: pollMsg.key.remoteJid,
+  pollMsgId: pollMsg.key.id,
+});
+
+// 3. quoted message through any wrapper (view-once, ephemeral...)
+const q = sock.getQuoted(msg); // → { key, text, message } | null
+
+// 4. disappearing message in one call
+await sock.sendEphemeral(jid, { text: "byeee" }, { seconds: 86400 });
+
+// 5. view-once in one call
+await sock.sendViewOnce(jid, { image: { url } , caption: "peek 👀" });
+```
