@@ -357,3 +357,84 @@ await sock.sendEphemeral(jid, { text: "byeee" }, { seconds: 86400 });
 // 5. view-once in one call
 await sock.sendViewOnce(jid, { image: { url } , caption: "peek 👀" });
 ```
+
+---
+
+## 📢 Channel Suite (`channel`)
+
+Post, react, moderate and read WhatsApp Channels:
+
+```js
+const { channel } = require("@rixxcodex/baileys/channel");
+channel(sock);
+
+await sock.channelCreate("My Channel", "Daily updates");     // create
+await sock.channelPost(jid, { text: "Hello!" });             // post (also media)
+await sock.channelReact(jid, serverId, "🔥");                // react to a post
+await sock.channelFollow(jid);                               // follow/unfollow/mute/unmute
+await sock.channelUpdateName(jid, "New Name");               // rename / desc / picture
+const { posts } = await sock.channelFetchPosts(jid, 10);     // read posts
+await sock.channelLiveUpdates(jid);                          // subscribe to live updates
+// live events: sock.ev.on("newsletter.view" | "newsletter.reaction", ...)
+```
+
+## 🛡 Group Guard (`guard`)
+
+Group security suite — turns system stubs into events, auto-approves join
+requests, detects nuking:
+
+```js
+const { guard } = require("@rixxcodex/baileys/guard");
+guard(sock, {
+  autoApprove: { whitelist: ["628xx@s.whatsapp.net"] }, // approve list, reject rest
+  antiNuke: { threshold: 4, windowMs: 60000, lockdown: true }, // auto announcement+approval on burst
+});
+
+sock.ev.on("rix.group.event", (e) => console.log(e.type, e.chat, e.actor));
+// types: member_add, member_remove, promote, demote, join_request,
+//        admin_revoke, invite_link_locked, group_deactivated, ...
+sock.ev.on("rix.group.nukeDetected", ({ chat, actor, count }) => { /* alert */ });
+```
+
+## ⏳ Time Machine (`pdo`)
+
+On-demand history sync & server-side link previews via companion data ops:
+
+```js
+const { pdo } = require("@rixxcodex/baileys/pdo");
+pdo(sock);
+
+await sock.requestHistory("628xx@s.whatsapp.net", { count: 50 });
+// → history arrives via "messaging-history.set"
+
+const preview = await sock.requestLinkPreview("https://example.com/post");
+// → { url, title, description, ... } | null
+```
+
+## 💎 Polls, Quiz & more (`gems`)
+
+```js
+const { gems } = require("@rixxcodex/baileys/gems");
+gems(sock);
+
+// quiz poll — correct answer revealed after close
+const q = await sock.sendQuiz(jid, { name: "1+1?", values: ["2","3"], correctAnswer: "2" });
+sock.rememberPollSecret(q.key, q.messageContextInfo?.messageSecret);
+
+// track & read live results
+sock.trackPoll(q);
+sock.ev.on("messages.update", async (u) => {
+  const results = sock.pollResults(q.key);   // [{ name, voters:[...] }]
+});
+
+// the bot votes in its own poll
+await sock.votePoll(jid, q.key, ["2"]);
+
+// status & album
+await sock.postStatus({ text: "hi" }, { audience: ["628xx@s.whatsapp.net"] });
+await sock.sendAlbum(jid, [{ image: { url: a } }, { video: { url: b } }]);
+```
+
+`gems` also keeps: `editMessage`, `decodePollVote`, `getQuoted`,
+`sendEphemeral`, `sendViewOnce`. `enhance` keeps: `antiCall`, `autoRead`,
+`autoTyping`, `antiDelete`, `alwaysOnline`, `sendContact`.

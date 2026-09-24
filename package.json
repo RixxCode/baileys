@@ -1,6 +1,6 @@
 {
   "name": "@rixxcodex/baileys",
-  "version": "8.2.0",
+  "version": "9.0.0",
   "description": "Websocket Whatsapp API for Node.js",
   "keywords": [
     "whatsapp",
@@ -23,7 +23,10 @@
     "lib/*",
     "WAProto/*",
     "enhance.js",
-    "gems.js"
+    "gems.js",
+    "channel.js",
+    "guard.js",
+    "pdo.js"
   ],
   "scripts": {
     "changelog:update": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
