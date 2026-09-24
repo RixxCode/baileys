@@ -1,6 +1,6 @@
 {
   "name": "@rixxcodex/baileys",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "description": "Websocket Whatsapp API for Node.js",
   "keywords": [
     "whatsapp",
